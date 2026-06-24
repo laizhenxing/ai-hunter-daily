@@ -1,0 +1,82 @@
+# AI Hunter Daily 配置
+# 搜索关键词、评分权重、输出格式
+
+search:
+  # 每个查询最多拉取页数，GitHub Search API 最多 1000 条结果
+  max_pages: 3
+  per_page: 30
+
+  # 时间窗口：只关注近期有 push 的项目（GitHub 仓库搜索用 pushed: 过滤）
+  pushed_after: "2025-01-01"
+
+  # 多组搜索查询
+  queries:
+    - name: "AI Agent 框架"
+      q: "ai agent framework stars:>50 language:Python language:TypeScript"
+      weight: 1.0
+    - name: "MCP Skill / Server"
+      q: "mcp server OR 'model context protocol' stars:>20"
+      weight: 1.2
+    - name: "Agent 编排与自动化"
+      q: "agent orchestration OR 'multi-agent' OR 'autonomous agent' stars:>30"
+      weight: 1.0
+    - name: "轻量 AI 工具"
+      q: "ai tool OR 'ai saas' OR 'openai wrapper' stars:>50 language:Python language:TypeScript"
+      weight: 0.9
+    - name: "AI API / 变现"
+      q: "ai api OR 'ai monetization' OR 'no code ai' stars:>20"
+      weight: 1.1
+
+  # 排序方式
+  sort: "stars"
+  order: "desc"
+
+scoring:
+  top_n: 15
+  weights:
+    star_velocity_7d: 0.35   # 7 日日均 star 增量
+    star_velocity_24h: 0.20  # 24 小时 star 增量（估算）
+    forks: 0.10              # fork 数
+    recent_update: 0.15      # 30 天内更新
+    topic_match: 0.10        # topics 命中核心标签
+    keyword_match: 0.10      # 描述/名称命中变现、易用关键词
+
+  # 核心 topic 标签（命中加分）
+  core_topics:
+    - "ai-agent"
+    - "agent"
+    - "agents"
+    - "mcp"
+    - "llm"
+    - "openai"
+    - "automation"
+    - "saas"
+    - "api"
+    - "no-code"
+    - "low-code"
+    - "workflow"
+    - "copilot"
+
+  # 变现 / 易用 / 热点关键词（命中加分）
+  value_keywords:
+    - "mcp"
+    - "skill"
+    - "agent"
+    - "api"
+    - "saas"
+    - "monetize"
+    - "no-code"
+    - "low-code"
+    - "cursor"
+    - "vscode"
+    - "chatgpt"
+    - "claude"
+    - "openai"
+    - "wrapper"
+    - "sdk"
+    - "plugin"
+    - "extension"
+
+output:
+  report_dir: "reports"
+  date_format: "%Y-%m-%d"
